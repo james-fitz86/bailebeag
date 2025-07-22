@@ -104,7 +104,7 @@ class UserRegistrationTests(TestCase):
         self.assertIn('This password is too common.', form.errors['password2'])
 
     def test_password_similar_to_username(self):
-        # Test user registration form with password that is too common
+        # Test user registration form with password that is too similar to the username
         form_data = {
             'username': 'james1986',
             'email': 'james@example.com',
