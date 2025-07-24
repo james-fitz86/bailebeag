@@ -116,3 +116,18 @@ class UserRegistrationTests(TestCase):
         self.assertIn('password2', form.errors)
         self.assertIn('The password is too similar to the username.', form.errors['password2'])
 
+class UserLoginTests(TestCase):
+
+    def setUp(self):
+        # Set up a user and profile for the tests
+        self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
+
+    def test_valid_login(self):
+        # Test user login with valid data
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertTrue(login)
+
+    def test_invalid_login_incorrect_password(self):
+        # Test user login with incorrect password
+        login = self.client.login(username='testuser', password='strongpassword123!')
+        self.assertFalse(login)
