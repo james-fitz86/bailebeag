@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
+from django.urls import reverse
+
 
 # Create your tests here.
 class UserRegistrationTests(TestCase):
@@ -131,3 +133,59 @@ class UserLoginTests(TestCase):
         # Test user login with incorrect password
         login = self.client.login(username='testuser', password='strongpassword123!')
         self.assertFalse(login)
+
+    def test_inavlid_login_nonexistent_user(self):
+        # Test user login with nonexistent user
+        login = self.client.login(username='userwho', password='StrongPassword123!')
+        self.assertFalse(login)
+    
+    def test_login_redirect(self):
+        # Test user login redirects to profile page
+        response = self.client.post(reverse('login'), {
+            'username': 'testuser',
+            'password': 'StrongPassword123!',
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+        self.assertRedirects(response, reverse('profile'))
+    
+    def test_inactive_user_cannot_login(self):
+        # Test inactive user cannot login
+        self.user.is_active = False
+        self.user.save()
+
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertFalse(login)
+
+class UserLogoutTests(TestCase):
+    def setUp(self):
+        # Set up a user and profile for the tests
+        self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
+    
+    def test_logout(self):
+        # Test a user is successfully logged out
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertTrue(login)
+        # Print to confirm authenticated user's ID
+        print("Before logout:", self.client.session.get('_auth_user_id'))
+
+        self.client.logout()
+
+        # Print to confirm user is no longer logged in
+        print("After logout:", self.client.session.get('_auth_user_id'))
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+    def test_logout_redirect(self):
+        # Test user logout redirects to profile page
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertTrue(login)
+
+        response = self.client.post(reverse('logout'))
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, 'users/logout.html')
+        self.assertNotIn('_auth_user_id', self.client.session)
+    
+
