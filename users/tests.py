@@ -230,11 +230,21 @@ class AuthenticationPageAccessTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_logged_in_user_redirected_from_registration_page(self):
-        # Test a logged in user is redirected away fromn the registration page
+        # Test a logged in user is redirected away from the registration page
         login = self.client.login(username='testuser', password='StrongPassword123!')
         self.assertTrue(login)
 
         response = self.client.get(reverse('register'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/profile/')
+    
+    def test_logged_in_user_redirected_from_login_page(self):
+        # Test a logged in user is redirected away from the login page
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertTrue(login)
+
+        response = self.client.get(reverse('login'))
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/profile/')
