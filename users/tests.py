@@ -8,7 +8,7 @@ from django.urls import reverse
 class UserRegistrationTests(TestCase):
 
     def setUp(self):
-        # Set up a user and profile for the tests
+        # Set up a user for the tests
         self.user = User.objects.create_user(username='testuser', password='12345')
 
     def test_valid_registration(self):
@@ -121,7 +121,7 @@ class UserRegistrationTests(TestCase):
 class UserLoginTests(TestCase):
 
     def setUp(self):
-        # Set up a user and profile for the tests
+        # Set up a user for the tests
         self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
 
     def test_valid_login(self):
@@ -160,7 +160,7 @@ class UserLoginTests(TestCase):
 
 class UserLogoutTests(TestCase):
     def setUp(self):
-        # Set up a user and profile for the tests
+        # Set up a user for the tests
         self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
     
     def test_logout(self):
@@ -188,4 +188,37 @@ class UserLogoutTests(TestCase):
         self.assertTemplateUsed(response, 'users/logout.html')
         self.assertNotIn('_auth_user_id', self.client.session)
     
+class ProfilePageAccessTests(TestCase):
+    def setUp(self):
+        # Set up a user for the tests
+        self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
+    
+    def test_profile_access_logged_in_user(self):
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertTrue(login)
+        
+        response = self.client.get(reverse('profile'))
 
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/profile.html')
+        self.assertContains(response, "Hi testuser")
+
+    def test_profile_access_non_logged_in_user(self):
+
+        response = self.client.get(reverse('profile'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/accounts/login/?next=/profile/')
+
+class AuthenticationPageAccessTests(TestCase):
+    
+    def test_login_page_access(self):
+        response = self.client.get(reverse('login'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/login.html')
+    
+    def test_registration_page_access(self):
+        response = self.client.get(reverse('register'))
+
+        self.assertEqual(response.status_code, 200)
