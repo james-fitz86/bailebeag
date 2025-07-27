@@ -194,6 +194,7 @@ class ProfilePageAccessTests(TestCase):
         self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
     
     def test_profile_access_logged_in_user(self):
+        # Test logged in user can access the profile page
         login = self.client.login(username='testuser', password='StrongPassword123!')
         self.assertTrue(login)
         
@@ -204,21 +205,36 @@ class ProfilePageAccessTests(TestCase):
         self.assertContains(response, "Hi testuser")
 
     def test_profile_access_non_logged_in_user(self):
-
+        # Test non logged in user cannot access the profile page
         response = self.client.get(reverse('profile'))
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/accounts/login/?next=/profile/')
 
 class AuthenticationPageAccessTests(TestCase):
+    def setUp(self):
+        # Set up a user for the tests
+        self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
     
     def test_login_page_access(self):
+        # Test the login page can be accessed
         response = self.client.get(reverse('login'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'users/login.html')
     
     def test_registration_page_access(self):
+        # Test the registration page can be accessed
         response = self.client.get(reverse('register'))
 
         self.assertEqual(response.status_code, 200)
+
+    def test_logged_in_user_redirected_from_registration_page(self):
+        # Test a logged in user is redirected away fromn the registration page
+        login = self.client.login(username='testuser', password='StrongPassword123!')
+        self.assertTrue(login)
+
+        response = self.client.get(reverse('register'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/profile/')
