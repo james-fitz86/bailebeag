@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
+    'bookings.apps.BookingsConfig',
     "crispy_forms",
     "crispy_bootstrap5",
     'django.contrib.admin',
@@ -133,3 +134,5 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = '/profile/'
+
+AUTH_USER_MODEL = 'users.CustomUser'
