@@ -1,5 +1,6 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from .forms import UserRegisterForm
 from django.urls import reverse
 
@@ -138,7 +139,7 @@ class UserLoginTests(TestCase):
         # Test user login with nonexistent user
         login = self.client.login(username='userwho', password='StrongPassword123!')
         self.assertFalse(login)
-    
+
     def test_login_redirect(self):
         # Test user login redirects to profile page
         response = self.client.post(reverse('login'), {
@@ -149,7 +150,7 @@ class UserLoginTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
         self.assertRedirects(response, reverse('profile'))
-    
+
     def test_inactive_user_cannot_login(self):
         # Test inactive user cannot login
         self.user.is_active = False
@@ -162,18 +163,14 @@ class UserLogoutTests(TestCase):
     def setUp(self):
         # Set up a user for the tests
         self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
-    
+
     def test_logout(self):
         # Test a user is successfully logged out
         login = self.client.login(username='testuser', password='StrongPassword123!')
         self.assertTrue(login)
-        # Print to confirm authenticated user's ID
-        print("Before logout:", self.client.session.get('_auth_user_id'))
 
         self.client.logout()
 
-        # Print to confirm user is no longer logged in
-        print("After logout:", self.client.session.get('_auth_user_id'))
         self.assertNotIn('_auth_user_id', self.client.session)
 
     def test_logout_redirect(self):
@@ -187,17 +184,17 @@ class UserLogoutTests(TestCase):
 
         self.assertTemplateUsed(response, 'users/logout.html')
         self.assertNotIn('_auth_user_id', self.client.session)
-    
+
 class ProfilePageAccessTests(TestCase):
     def setUp(self):
         # Set up a user for the tests
         self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
-    
+
     def test_profile_access_logged_in_user(self):
         # Test logged in user can access the profile page
         login = self.client.login(username='testuser', password='StrongPassword123!')
         self.assertTrue(login)
-        
+
         response = self.client.get(reverse('profile'))
 
         self.assertEqual(response.status_code, 200)
@@ -215,14 +212,14 @@ class AuthenticationPageAccessTests(TestCase):
     def setUp(self):
         # Set up a user for the tests
         self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
-    
+
     def test_login_page_access(self):
         # Test the login page can be accessed
         response = self.client.get(reverse('login'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'users/login.html')
-    
+
     def test_registration_page_access(self):
         # Test the registration page can be accessed
         response = self.client.get(reverse('register'))
@@ -238,7 +235,7 @@ class AuthenticationPageAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/profile/')
-    
+
     def test_logged_in_user_redirected_from_login_page(self):
         # Test a logged in user is redirected away from the login page
         login = self.client.login(username='testuser', password='StrongPassword123!')
