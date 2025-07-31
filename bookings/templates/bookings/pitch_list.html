@@ -1,0 +1,33 @@
+{% extends "config/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Pitches{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Pitches</h2>
+
+    {% if pitches %}
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Is Public</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pitch in pitches %}
+                <tr>
+                    <td>{{ pitch.name }}</td>
+                    <td>{{ pitch.description }}</td>
+                    <td>{{ pitch.is_public }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You do not have access to view available pitches!</p>
+    {% endif %}
+</div>
+{% endblock %}
