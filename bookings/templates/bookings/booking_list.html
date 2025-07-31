@@ -1,0 +1,64 @@
+{% extends "config/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Bookings{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Bookings</h2>
+
+    {% if bookings %}
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Pitch</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Booked By</th>
+                    <th>Role</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.pitch.name }}</td>
+                    <td>{{ booking.start_time|date:"Y-m-d" }}</td>
+                    <td>{{ booking.start_time|time:"H:i" }} – {{ booking.end_time|time:"H:i" }}</td>
+                    <td>
+                        {% if booking.created_by %}
+                            {{ booking.created_by.get_full_name }}
+                            {{ booking.created_by.get}}
+                        {% else %}
+                            {{ booking.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if booking.created_by %}
+                            {{ booking.created_by.role|title}}
+                        {% else %}
+                            Public User
+                        {% endif %}
+                    </td>
+                    <td>{{ booking.get_method_display }}</td>
+                    <td>
+                        {% if booking.status == 'approved' %}
+                            <span class="badge bg-success">Approved</span>
+                        {% elif booking.status == 'pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif booking.status == 'rejected' %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% else %}
+                            {{ booking.status }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings found.</p>
+    {% endif %}
+</div>
+{% endblock %}
