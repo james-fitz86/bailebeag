@@ -36,10 +36,11 @@ class Booking(models.Model):
         ('email', 'Email'),
     ], default='web')
 
-    status = models.CharField(max_length=10, choices=[
+    status = models.CharField(max_length=11, choices=[
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
+        ('conflicting', 'Conflicting'),
     ], default='pending')
 
     submitted_at = models.DateTimeField(auto_now_add=True)
