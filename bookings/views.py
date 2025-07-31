@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import BookingForm
-from .models import Booking
-from django.db.models import Q
+from .models import Booking, Pitch
 
 # Create your views here.
 def create_booking(request):
@@ -79,3 +78,11 @@ def booking_list(request):
     else:
         bookings = Booking.objects.filter(created_by=request.user)
     return render(request, 'bookings/booking_list.html', {'bookings': bookings})
+
+
+def pitch_list(request):
+    if request.user.is_staff:
+        pitches = Pitch.objects.all()
+    else:
+        pitches = Pitch.objects.none()
+    return render(request, 'bookings/pitch_list.html', {'pitches': pitches})
