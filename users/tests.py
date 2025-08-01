@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from .forms import UserRegisterForm
 from django.urls import reverse
+from django.conf import settings
 
 
 # Create your tests here.
@@ -158,6 +159,19 @@ class UserLoginTests(TestCase):
 
         login = self.client.login(username='testuser', password='StrongPassword123!')
         self.assertFalse(login)
+
+    def test_login_redirects_back_to_next(self):
+        #Test redirect of non logged in user from profile to login and from login back to profile
+        response = self.client.get('/profile/')
+        expected_login_url = f"{settings.LOGIN_URL}?next=/profile/"
+        self.assertRedirects(response, expected_login_url)
+
+        login_response = self.client.post(expected_login_url, {
+            'username': 'testuser',
+            'password': 'StrongPassword123!',
+        })
+
+        self.assertRedirects(login_response, '/profile/')
 
 class UserLogoutTests(TestCase):
     def setUp(self):
