@@ -1,6 +1,5 @@
 from django import forms
 from .models import Booking, Pitch
-import datetime
 
 from django import forms
 from .models import Booking, Pitch
@@ -43,4 +42,3 @@ class BookingForm(forms.ModelForm):
             self.fields['method'].widget = forms.HiddenInput()
             self.fields['method'].initial = 'web'
             self.fields['pitch'].queryset = Pitch.objects.filter(name__icontains='Astro')
-
