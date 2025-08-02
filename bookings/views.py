@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import BookingForm
 from .models import Booking, Pitch
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def create_booking(request):
@@ -72,12 +74,10 @@ def create_booking(request):
 
 
 
-def booking_list(request):
-    if request.user.is_staff:
-        bookings = Booking.objects.all()
-    else:
-        bookings = Booking.objects.filter(created_by=request.user)
-    return render(request, 'bookings/booking_list.html', {'bookings': bookings})
+class booking_list(LoginRequiredMixin, ListView):
+    model = Booking
+    template_name = 'booking_list.html'
+    context_object_name = 'bookings'
 
 
 def pitch_list(request):
