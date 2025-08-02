@@ -74,18 +74,21 @@ def create_booking(request):
 
 
 
-class booking_list(LoginRequiredMixin, ListView):
+class BookingList(LoginRequiredMixin, ListView):
     model = Booking
     template_name = 'booking_list.html'
     context_object_name = 'bookings'
 
-class booking_detail(DetailView):
+class BookingDetail(DetailView):
     model = Booking
 
 
-def pitch_list(request):
-    if request.user.is_staff:
-        pitches = Pitch.objects.all()
-    else:
-        pitches = Pitch.objects.none()
-    return render(request, 'bookings/pitch_list.html', {'pitches': pitches})
+class PitchList(ListView):
+    model = Pitch
+    template_name = 'pitch_list.html'
+    context_object_name = 'pitches'
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Pitch.objects.all()
+        return Pitch.objects.none()
