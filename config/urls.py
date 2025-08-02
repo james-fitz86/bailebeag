@@ -31,7 +31,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('bookings/new/', booking_views.create_booking, name='create_booking'),
-    path('bookings/', booking_views.booking_list.as_view(), name='booking_list'),
-    path('bookings/<int:pk>', booking_views.booking_detail.as_view(), name='booking_detail'),
-    path('pitches/', booking_views.pitch_list, name='pitch_list'),
+    path('bookings/', booking_views.BookingList.as_view(), name='booking_list'),
+    path('bookings/<int:pk>', booking_views.BookingDetail.as_view(), name='booking_detail'),
+    path('pitches/', booking_views.PitchList.as_view(), name='pitch_list'),
 ]
