@@ -28,6 +28,10 @@
         </table>
     {% else %}
         <p>You do not have access to view available pitches!</p>
+        <small>
+            Login in to view pitches
+            <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+        </small>
     {% endif %}
 </div>
 {% endblock %}
