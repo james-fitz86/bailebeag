@@ -18,6 +18,7 @@
                     <th>Role</th>
                     <th>Method</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +53,9 @@
                         {% else %}
                             {{ booking.status }}
                         {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'booking_detail' booking.id %}" class="btn btn-sm btn-outline-primary">View</a>
                     </td>
                 </tr>
                 {% endfor %}
