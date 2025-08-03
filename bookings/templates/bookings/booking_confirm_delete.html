@@ -1,0 +1,13 @@
+{% extends "config/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h2>Confirm Deletion</h2>
+  <p>Are you sure you want to delete the booking for {{ object.pitch.name }} on {{ object.start_time }}?</p>
+  
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a href="{% url 'booking_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
