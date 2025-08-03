@@ -14,12 +14,12 @@ class BookingForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
         # Restricts pitch options based on user
-        if user and user.is_authenticated:
-            role = user.role
+        if self.user and self.user.is_authenticated:
+            role = self.user.role
             if role in ['coach', 'chairman', 'secretary', 'manager']:
                 self.fields['pitch'].queryset = Pitch.objects.all()
             else:
