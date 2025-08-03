@@ -33,5 +33,7 @@ urlpatterns = [
     path('bookings/new/', booking_views.create_booking, name='create_booking'),
     path('bookings/', booking_views.BookingList.as_view(), name='booking_list'),
     path('bookings/<int:pk>', booking_views.BookingDetail.as_view(), name='booking_detail'),
+    path('bookings/<int:pk>/update/', booking_views.BookingUpdateView.as_view(template_name='bookings/create_booking.html'), name='booking_update'),
+    path('bookings/<int:pk>/delete/', booking_views.BookingDeleteView.as_view(), name='booking_delete'),
     path('pitches/', booking_views.PitchList.as_view(), name='pitch_list'),
 ]
