@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import BookingForm
 from .models import Booking, Pitch
-from django.views.generic import ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 
 # Create your views here.
 def create_booking(request):
@@ -82,6 +83,39 @@ class BookingList(LoginRequiredMixin, ListView):
 class BookingDetail(DetailView):
     model = Booking
 
+class BookingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+  model = Booking
+  form_class = BookingForm
+  success_url = reverse_lazy('booking_list')
+
+  def get_form_kwargs(self):
+    kwargs = super().get_form_kwargs()
+    kwargs['user'] = self.request.user
+    return kwargs
+    
+  def form_valid(self, form):
+    form.instance.author = self.request.user
+    return super().form_valid(form)
+  
+  def test_func(self):
+    booking = self.get_object()
+    user = self.request.user
+    return (
+        user == booking.created_by or
+        user.role in ['manager', 'secretary', 'chairman']
+    )
+
+class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+  model = Booking
+  success_url = reverse_lazy('booking_list')
+  
+  def test_func(self):
+    booking = self.get_object()
+    user = self.request.user
+    return (
+        user == booking.created_by or
+        user.role in ['manager', 'secretary', 'chairman']
+    )
 
 class PitchList(ListView):
     model = Pitch
@@ -92,3 +126,5 @@ class PitchList(ListView):
         if self.request.user.is_staff:
             return Pitch.objects.all()
         return Pitch.objects.none()
+    
+    
