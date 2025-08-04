@@ -50,6 +50,8 @@
                             <span class="badge bg-warning text-dark">Pending</span>
                         {% elif booking.status == 'rejected' %}
                             <span class="badge bg-danger">Rejected</span>
+                        {% elif booking.status == 'conflicting' %}
+                            <span class="badge bg-info text-dark">Conflicting</span>
                         {% else %}
                             {{ booking.status }}
                         {% endif %}
