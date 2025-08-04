@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import BookingForm
 from .models import Booking, Pitch
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
 def create_booking(request):
@@ -126,5 +127,24 @@ class PitchList(ListView):
         if self.request.user.is_staff:
             return Pitch.objects.all()
         return Pitch.objects.none()
-    
-    
+
+def is_authorised_approver(user):
+    return user.is_authenticated and user.role in ['manager', 'secretary', 'chairman']
+
+@login_required
+@user_passes_test(is_authorised_approver)
+def approve_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if request.method == 'POST' and booking.status == 'pending':
+        booking.status = 'approved'
+        booking.save()
+    return redirect('booking_detail', pk=booking.id)
+
+@login_required
+@user_passes_test(is_authorised_approver)
+def reject_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if request.method == 'POST' and booking.status == 'pending':
+        booking.status = 'rejected'
+        booking.save()
+    return redirect('booking_detail', pk=booking.id)
