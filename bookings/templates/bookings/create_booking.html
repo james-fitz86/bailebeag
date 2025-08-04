@@ -13,10 +13,13 @@
                     <legend class="mb-3">{% if object %}Update Booking{% else %}Book a Pitch{% endif %}</legend>
                     {{ form|crispy }}
                 </fieldset>
-                <div class="mt-3">
+                <div class="mt-3 d-flex justify-content-between gap-2">
                     <button type="submit" class="btn btn-primary w-100">
                         {% if object %}Update{% else %}Submit Booking{% endif %}
                     </button>
+                    {% if object %}
+                        <a href="{% url 'booking_detail' object.id %}" class="btn btn-secondary w-100">Back to Booking</a>
+                    {% endif %}
                 </div>
             </form>
 
