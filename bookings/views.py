@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 def create_booking(request):
@@ -81,7 +82,7 @@ class BookingList(LoginRequiredMixin, ListView):
     template_name = 'booking_list.html'
     context_object_name = 'bookings'
 
-class BookingDetail(DetailView):
+class BookingDetail(LoginRequiredMixin, DetailView):
     model = Booking
 
 class BookingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -135,6 +136,13 @@ def is_authorised_approver(user):
 @user_passes_test(is_authorised_approver)
 def approve_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.user.role in ['secretary', 'chairman'] and booking.pitch.name != 'Main Pitch':
+        raise PermissionDenied("Chairman and Secretary can only approve Main Pitch Bookings")
+    
+    if request.user.role == 'manager' and booking.pitch.name != 'Astro Pitch':
+        raise PermissionDenied("Manager can only approve Main Pitch Bookings")
+
     if request.method == 'POST' and booking.status == 'pending':
         booking.status = 'approved'
         booking.save()
@@ -144,6 +152,13 @@ def approve_booking(request, booking_id):
 @user_passes_test(is_authorised_approver)
 def reject_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.user.role in ['secretary', 'chairman'] and booking.pitch.name != 'Main Pitch':
+        raise PermissionDenied("Chairman and Secretary can only reject Main Pitch Bookings")
+    
+    if request.user.role == 'manager' and booking.pitch.name != 'Astro Pitch':
+        raise PermissionDenied("Manager can only reject Astro Pitch Bookings")
+
     if request.method == 'POST' and booking.status == 'pending':
         booking.status = 'rejected'
         booking.save()
