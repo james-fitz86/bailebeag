@@ -1,0 +1,49 @@
+{% extends "config/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Teams{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Club Teams</h2>
+
+    {% if teams %}
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Age Group</th>
+                    <th>Gender</th>
+                    <th>Sport</th>
+                    <th>Coach</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team.get_age_group_display }}</td>
+                    <td>{{ team.get_gender_display }}</td>
+                    <td>{{ team.get_sport_display }}</td>
+                    <td>
+                        {% if team.coach %}
+                            {{ team.coach.get_full_name|default:team.coach.username }}
+                        {% else %}
+                            <em>Unassigned</em>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.is_authenticated and user.role in "chairman secretary" %}
+                            <a href="{% url 'team_detail' team.pk %}" class="btn btn-sm btn-primary">View</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No teams available at this time.</p>
+    {% endif %}
+    {% if user.is_authenticated and user.role in "chairman secretary" %}
+        <a href="{% url 'create_team' %}" class="btn btn-sm btn-primary">Add a Team</a>
+    {% endif %}
+</div>
+{% endblock %}

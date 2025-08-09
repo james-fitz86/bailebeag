@@ -1,0 +1,35 @@
+{% extends "config/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Team Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Team Details</h2>
+
+    <div class="card mt-3 shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title">
+                {{ team.get_age_group_display }} {{ team.get_gender_display }} ({{ team.get_sport_display }})
+            </h4>
+            <p class="card-text">
+                <strong>Coach:</strong>
+                {% if team.coach %}
+                    {{ team.coach.get_full_name|default:team.coach.username }}
+                {% else %}
+                    <em>Unassigned</em>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'team_list' %}" class="btn btn-secondary">Back to Team List</a>
+
+        {% if request.user.is_authenticated and request.user.role in 'chairman secretary' %}
+            <a href="{% url 'team_edit' team.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'team_delete' team.pk %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
