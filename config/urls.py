@@ -21,6 +21,7 @@ from . import views
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from bookings import views as booking_views
+from teams import views as team_views
 
 
 urlpatterns = [
@@ -37,6 +38,10 @@ urlpatterns = [
     path('bookings/<int:pk>/delete/', booking_views.BookingDeleteView.as_view(), name='booking_delete'),
     path('bookings/<int:booking_id>/approve/', booking_views.approve_booking, name='booking_approve'),
     path('bookings/<int:booking_id>/reject/', booking_views.reject_booking, name='booking_reject'),
-
     path('pitches/', booking_views.PitchList.as_view(), name='pitch_list'),
+    path('teams/create/', team_views.create_team, name='create_team'),
+    path('teams/', team_views.TeamList.as_view(), name='team_list'),
+    path('teams/<int:pk>/', team_views.TeamDetail.as_view(), name='team_detail'),
+    path('teams/<int:pk>/edit/', team_views.TeamUpdateView.as_view(), name='team_edit'),
+    path('teams/<int:pk>/delete/', team_views.TeamDeleteView.as_view(), name='team_delete'),
 ]
