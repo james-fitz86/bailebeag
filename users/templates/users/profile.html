@@ -4,10 +4,41 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-    <h1>Hi {{ user.username }}</h1>
-
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
+<div class="container mt-4">
+    <h1 class="mb-4">Hi {{ user.get_full_name }}</h1>
+    {% if user.is_authenticated and user.role == 'coach' %}
+        <section class="mb-5">
+            <h2>Teams You Coach</h2>
+            {% if user.coached_teams.all %}
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Age Group</th>
+                            <th>Gender</th>
+                            <th>Sport</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in user.coached_teams.all %}
+                        <tr>
+                            <td>{{ team.get_age_group_display }}</td>
+                            <td>{{ team.get_gender_display }}</td>
+                            <td>{{ team.get_sport_display }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">You are not currently assigned as coach to any teams.</p>
+            {% endif %}
+        </section>
+    {% endif %}
+    <section>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Log Out</button>
+        </form>
+    </section>
+</div>
 {% endblock content %}
+
