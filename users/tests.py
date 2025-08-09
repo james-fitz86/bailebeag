@@ -202,7 +202,12 @@ class UserLogoutTests(TestCase):
 class ProfilePageAccessTests(TestCase):
     def setUp(self):
         """Set up a user for the tests"""
-        self.user = User.objects.create_user(username='testuser', password='StrongPassword123!')
+        self.user = User.objects.create_user(
+            username='testuser', 
+            password='StrongPassword123!',
+            first_name='Test',
+            last_name='User',
+        )
 
     def test_profile_access_logged_in_user(self):
         """Test logged in user can access the profile page"""
@@ -213,14 +218,14 @@ class ProfilePageAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'users/profile.html')
-        self.assertContains(response, "Hi testuser")
+        self.assertContains(response, "Hi Test User")
 
     def test_profile_access_non_logged_in_user(self):
         """Test non logged in user cannot access the profile page"""
         response = self.client.get(reverse('profile'))
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/accounts/login/?next=/profile/')
+        self.assertEqual(response.url, '/login/?next=/profile/')
 
 class AuthenticationPageAccessTests(TestCase):
     def setUp(self):
