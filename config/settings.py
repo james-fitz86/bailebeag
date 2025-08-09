@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'bookings.apps.BookingsConfig',
+    'teams.apps.TeamsConfig',
     "crispy_forms",
     "crispy_bootstrap5",
     'django.contrib.admin',
