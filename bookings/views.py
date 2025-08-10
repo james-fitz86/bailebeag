@@ -143,7 +143,7 @@ def approve_booking(request, booking_id):
     if request.user.role == 'manager' and booking.pitch.name != 'Astro Pitch':
         raise PermissionDenied("Manager can only approve Main Pitch Bookings")
 
-    if request.method == 'POST' and booking.status == 'pending':
+    if request.method == 'POST' and booking.status in ['pending', 'conflicting']:
         booking.status = 'approved'
         booking.save()
     return redirect('booking_detail', pk=booking.id)
@@ -159,7 +159,7 @@ def reject_booking(request, booking_id):
     if request.user.role == 'manager' and booking.pitch.name != 'Astro Pitch':
         raise PermissionDenied("Manager can only reject Astro Pitch Bookings")
 
-    if request.method == 'POST' and booking.status == 'pending':
+    if request.method == 'POST' and booking.status in ['pending', 'conflicting']:
         booking.status = 'rejected'
         booking.save()
     return redirect('booking_detail', pk=booking.id)
