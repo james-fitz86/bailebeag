@@ -22,6 +22,7 @@ from users import views as user_views
 from django.contrib.auth import views as auth_views
 from bookings import views as booking_views
 from teams import views as team_views
+from alerts import views as alert_views
 
 
 urlpatterns = [
@@ -44,4 +45,7 @@ urlpatterns = [
     path('teams/<int:pk>/', team_views.TeamDetail.as_view(), name='team_detail'),
     path('teams/<int:pk>/edit/', team_views.TeamUpdateView.as_view(), name='team_edit'),
     path('teams/<int:pk>/delete/', team_views.TeamDeleteView.as_view(), name='team_delete'),
+    path('notifications/', alert_views.NotificationListView.as_view(), name='notification_list'),
+    path('notifications/<int:pk>/', alert_views.NotificationDetailView.as_view(), name='notification_detail'),
+
 ]
