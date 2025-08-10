@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'bookings.apps.BookingsConfig',
     'teams.apps.TeamsConfig',
+    'alerts.apps.AlertsConfig',
     "crispy_forms",
     "crispy_bootstrap5",
     'django.contrib.admin',
