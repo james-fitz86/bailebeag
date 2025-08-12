@@ -38,6 +38,8 @@ def for_booking_created(booking):
     )
 
 def for_status_changed(booking, old, new):
+    if not booking.created_by_id:
+        return
     create_notification(
         recipient=booking.created_by,
         type=Notification.Type.STATUS_CHANGED,
@@ -51,6 +53,8 @@ def for_status_changed(booking, old, new):
     )
 
 def for_booking_updated(booking, changed_fields):
+    if not booking.created_by_id:
+        return
     create_notification(
         recipient=booking.created_by,
         type=Notification.Type.BOOKING_UPDATED,
