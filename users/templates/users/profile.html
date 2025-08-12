@@ -73,12 +73,30 @@
             {% endwith %}
         </section>
     </div>
-    <section>
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Log Out</button>
-        </form>
-    </section>
+    <div class="row mt-4">
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">
+                    <h2 class="h5 mb-0">Profile Info</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% crispy form %}
+                        <div class="d-grid d-sm-flex gap-2 justify-content-end mt-3">
+                            <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-end">
+                    <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Log Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
 
