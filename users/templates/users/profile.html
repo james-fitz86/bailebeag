@@ -4,6 +4,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+{% load static %}
 {% load alerts_tags %}
 <div class="container mt-4">
     <h1 class="mb-4">Hi {{ user.get_full_name }}</h1>
@@ -80,7 +81,7 @@
                     <h2 class="h5 mb-0">Profile Info</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data" novalidate id="user_update_form">
                         {% csrf_token %}
                         {% crispy form %}
                         <div class="d-grid d-sm-flex gap-2 justify-content-end mt-3">
@@ -98,5 +99,6 @@
         </div>
     </div>
 </div>
+<script src="{% static 'config/js/user_update_form.js' %}"></script>
 {% endblock content %}
 
