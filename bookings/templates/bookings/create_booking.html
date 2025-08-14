@@ -4,10 +4,11 @@
 {% block title %}Book a Pitch{% endblock %}
 
 {% block content %}
+{% load static %}
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <form method="POST" novalidate>
+            <form method="POST" novalidate id="booking_form">
                 {% csrf_token %}
                 <fieldset class="border p-4 rounded shadow-sm">
                     <legend class="mb-3">{% if object %}Update Booking{% else %}Book a Pitch{% endif %}</legend>
@@ -34,5 +35,6 @@
         </div>
     </div>
 </div>
+<script src="{% static 'config/js/pitch_booking_form.js' %}"></script>
 {% endblock content %}
 
