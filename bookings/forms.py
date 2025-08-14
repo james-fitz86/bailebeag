@@ -19,11 +19,12 @@ class BookingForm(forms.ModelForm):
 
         # Restricts pitch options based on user
         if self.user and self.user.is_authenticated:
-            role = self.user.role
+            role = getattr(self.user, 'role', None)
+            
             if role in ['coach', 'chairman', 'secretary', 'manager']:
                 self.fields['pitch'].queryset = Pitch.objects.all()
             else:
-                self.fields['pitch'].queryset = Pitch.objects.none()
+                self.fields['pitch'].queryset = Pitch.objects.filter(name__icontains='Astro')
 
             # Restricts method choice only to manager, all other users are default web in views, so don't need this choice
             if role == 'manager':
