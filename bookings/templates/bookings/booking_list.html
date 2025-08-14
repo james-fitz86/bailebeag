@@ -37,7 +37,13 @@
                     </td>
                     <td>
                         {% if booking.created_by %}
-                            {{ booking.created_by.role|title}}
+                            {% with r=booking.created_by.role %}
+                                {% if r %}
+                                    {{ r|title }}
+                                {% else %}
+                                    Registered User
+                                {% endif %}
+                            {% endwith %}
                         {% else %}
                             Public User
                         {% endif %}
