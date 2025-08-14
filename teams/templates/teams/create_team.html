@@ -4,10 +4,11 @@
 {% block title %}{% if object %}Edit Team{% else %}Create Team{% endif %}{% endblock %}
 
 {% block content %}
+{% load static %}
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <form method="POST" novalidate>
+            <form method="POST" novalidate id="create_team_form">
                 {% csrf_token %}
                 <fieldset class="border p-4 rounded shadow-sm">
                     <legend class="mb-3">{% if object %}Edit Team{% else %}Create Team{% endif %}</legend>
@@ -25,4 +26,5 @@
         </div>
     </div>
 </div>
+<script src="{% static 'config/js/create_team_form.js' %}"></script>
 {% endblock content %}
