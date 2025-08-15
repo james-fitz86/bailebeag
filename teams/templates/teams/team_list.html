@@ -4,11 +4,61 @@
 {% block title %}Teams{% endblock %}
 
 {% block content %}
+{% load static %}
 <div class="container mt-4">
-    <h2>Club Teams</h2>
+    <div class="d-flex align-items-center justify-content-between">
+        <h2 class="mb-0">Club Teams</h2>
+
+        <div class="ms-3">
+            <button id="reset_filters" class="btn btn-secondary btn-sm">Reset Filters</button>
+        </div>
+
+        <div class="ms-3">
+            <label for="age_group_filter" class="form-label mb-0 me-2">Age Group:</label>
+            <select id="age_group_filter" class="form-select d-inline-block" style="width:auto;">
+                <option value="all">All Age Groups</option>
+                <option value="U7">Under 7</option>
+                <option value="U8">Under 8</option>
+                <option value="U9">Under 9</option>
+                <option value="U10">Under 10</option>
+                <option value="U11">Under 11</option>
+                <option value="U12">Under 12</option>
+                <option value="U13">Under 13</option>
+                <option value="U14">Under 14</option>
+                <option value="U15">Under 15</option>
+                <option value="U16">Under 16</option>
+                <option value="Minor">Minor</option>
+                <option value="U21">Under 21</option>
+                <option value="Reserve">Reserve</option>
+                <option value="Senior">Senior</option>
+            </select>
+        </div>
+
+        <div class="ms-3">
+        <label for="gender_filter" class="form-label mb-0 me-2">Gender:</label>
+        <select id="gender_filter" class="form-select d-inline-block" style="width:auto;">
+            <option value="all">All Genders</option>
+            <option value="boys">Boys</option>
+            <option value="girls">Girls</option>
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="mixed">Mixed</option>
+        </select>
+        </div>
+
+         <div class="ms-3">
+            <label for="sport_filter" class="form-label mb-0 me-2">Sport:</label>
+            <select id="sport_filter" class="form-select d-inline-block" style="width:auto;">
+                <option value="all">All Sports</option>
+                <option value="football">Football</option>
+                <option value="hurling">Hurling</option>
+                <option value="camogie">Camogie</option>
+            </select>
+        </div>
+    </div>
 
     {% if teams %}
-        <table class="table table-striped mt-3">
+        <table class="table table-striped mt-3" id="teams_table">
             <thead>
                 <tr>
                     <th>Age Group</th>
@@ -19,7 +69,11 @@
             </thead>
             <tbody>
                 {% for team in teams %}
-                <tr>
+                <tr
+                    data-gender="{{ team.gender|lower }}"
+                    data-sport="{{ team.sport|lower }}"
+                    data-age_group="{{ team.age_group|lower }}"
+                >
                     <td>{{ team.get_age_group_display }}</td>
                     <td>{{ team.get_gender_display }}</td>
                     <td>{{ team.get_sport_display }}</td>
@@ -46,4 +100,6 @@
         <a href="{% url 'create_team' %}" class="btn btn-sm btn-primary">Add a Team</a>
     {% endif %}
 </div>
+
+<script src="{% static 'config/js/team_list.js' %}"></script>
 {% endblock %}
