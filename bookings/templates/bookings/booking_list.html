@@ -4,11 +4,37 @@
 {% block title %}Bookings{% endblock %}
 
 {% block content %}
+{% load static %}
 <div class="container mt-4">
-    <h2>Bookings</h2>
+    <div class="d-flex align-items-center justify-content-between">
+        <h2 class="mb-0">Bookings</h2>
 
+        <div class="ms-3">
+            <button id="reset_filters" class="btn btn-secondary btn-sm">Reset Filters</button>
+        </div>
+
+        <div class="ms-3">
+        <label for="pitch_filter" class="form-label mb-0 me-2">Pitch:</label>
+        <select id="pitch_filter" class="form-select d-inline-block" style="width:auto;">
+            <option value="all">All Pitches</option>
+            <option value="astro">Astro</option>
+            <option value="main">Main</option>
+        </select>
+        </div>
+
+         <div class="ms-3">
+            <label for="status_filter" class="form-label mb-0 me-2">Status:</label>
+            <select id="status_filter" class="form-select d-inline-block" style="width:auto;">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                <option value="conflicting">Conflicting</option>
+            </select>
+        </div>
+    </div>
     {% if bookings %}
-        <table class="table table-striped mt-3">
+        <table class="table table-striped mt-3" id="bookings_table">
             <thead>
                 <tr>
                     <th>Pitch</th>
@@ -23,14 +49,17 @@
             </thead>
             <tbody>
                 {% for booking in bookings %}
-                <tr>
+                <tr
+                data-pitch="{{ booking.pitch.name|lower }}"
+                data-start="{{ booking.start_time|date:'c' }}"
+                data-status="{{ booking.status|lower }}"
+                >
                     <td>{{ booking.pitch.name }}</td>
                     <td>{{ booking.start_time|date:"Y-m-d" }}</td>
                     <td>{{ booking.start_time|time:"H:i" }} – {{ booking.end_time|time:"H:i" }}</td>
                     <td>
                         {% if booking.created_by %}
                             {{ booking.created_by.get_full_name }}
-                            {{ booking.created_by.get}}
                         {% else %}
                             {{ booking.name }}
                         {% endif %}
@@ -73,4 +102,5 @@
         <p>No bookings found.</p>
     {% endif %}
 </div>
+<script src="{% static 'config/js/booking_list.js' %}"></script>
 {% endblock %}
