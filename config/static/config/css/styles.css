@@ -48,7 +48,7 @@
   color: #000;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991.98px) {
     .navbar-nav .nav-link {
       padding: 12px 20px;
       text-align: center;
@@ -268,4 +268,21 @@ main {
 #bookings_table,
 #teams_table {
   margin-top: 1rem;
+}
+/* Carousel styling */
+.carousel-inner img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 8px; 
+}
+
+.carousel-inner img[src*="clubhouse.png"] {
+  object-position: 50% 70%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1) grayscale(100);
 }
