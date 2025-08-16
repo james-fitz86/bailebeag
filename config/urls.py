@@ -24,6 +24,9 @@ from bookings import views as booking_views
 from teams import views as team_views
 from alerts import views as alert_views
 
+handler403 = 'config.views.error_403'
+handler404 = 'config.views.error_404'
+handler500 = 'config.views.error_500'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
