@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap:https://bailebeag-gaa.onrender.com/sitemap.xml
