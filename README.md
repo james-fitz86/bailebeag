@@ -13,11 +13,26 @@ A full-featured Django web application for managing a fictional GAA club’s pit
 - 🚀 **Live on Render** – Deployed online with environment configuration  
 
 ## 🧰 Technologies Used
-- **Backend:** Django, Python
-- **Frontend:** HTML, CSS (Bootstrap), JavaScript  
-- **Deployment:** Render.com  
-- **Database:** PostgreSQL
-- **Auth:** Django’s built-in authentication with custom role-based permissions
+- **Frontend:**  
+  ![HTML5](https://img.shields.io/badge/HTML5-Markup-orange?logo=html5&logoColor=white)
+  ![CSS3](https://img.shields.io/badge/CSS3-Styling-blue?logo=css3&logoColor=white)
+  ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple?logo=bootstrap&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-yellow?logo=javascript&logoColor=black)
+
+- **Backend:**  
+  ![Django](https://img.shields.io/badge/Django-Framework-green?logo=django&logoColor=white)
+  ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
+
+- **Deployment:**  
+  ![Render](https://img.shields.io/badge/Deployed%20on-Render.com-lightgrey?logo=render&logoColor=blue)
+
+- **Database:**  
+  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?logo=postgresql&logoColor=white)
+
+- **Auth:**  
+  ![Auth](https://img.shields.io/badge/Auth-Django%20Permissions-lightgreen?logo=django&logoColor=white)  
+  Django’s built-in authentication with custom role-based permissions
+
 
 
 ## Setup & Installation
