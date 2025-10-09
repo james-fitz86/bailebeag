@@ -2,15 +2,13 @@
 
 A full-featured Django web application for managing a fictional GAA club’s pitch bookings. The app allows coaches, managers, and club officials to manage team information, request and approve bookings, and receive notifications through a secure, role-based system. Deployed on **Render.com**.
 
-## ✨ Features
-- 📅  **Booking Management** – Request, approve, reject, and log bookings for pitches 
-- 🏟️ **Astro & Main Pitch Logic** – Separate booking workflows for Astro and Main pitches
-- 🧑‍🤝‍🧑 **Role-Based Access** – Permissions for Public, Coaches, Manager, Secretary, and Chairman
-- 📬 **Notifications System** – On-site notifications for booking approvals/rejections
-- 📑 **Team Management** – Create and list club teams with coaches assigned
-- 📊 **Filterable Tables** – JavaScript-enhanced filters for bookings and teams pages
-- 🎨 **Polished Frontend** – Bootstrap 5 with custom CSS for club-themed branding
-- 🚀 **Live on Render** – Deployed online with environment configuration  
+---
+## 🌐 Live Demo
+
+Check out the live version of this project on Render:  
+👉 [https://bailebeag-gaa.onrender.com/]
+
+---
 
 ## 🧰 Technologies Used
 - **Frontend:**  
@@ -32,8 +30,19 @@ A full-featured Django web application for managing a fictional GAA club’s pit
 - **Auth:**  
   ![Auth](https://img.shields.io/badge/Auth-Django%20Permissions-lightgreen?logo=django&logoColor=white)  
   Django’s built-in authentication with custom role-based permissions
+  
+---
 
-
+## ✨ Features
+- 📅  **Booking Management** – Request, approve, reject, and log bookings for pitches 
+- 🏟️ **Astro & Main Pitch Logic** – Separate booking workflows for Astro and Main pitches
+- 🧑‍🤝‍🧑 **Role-Based Access** – Permissions for Public, Coaches, Manager, Secretary, and Chairman
+- 📬 **Notifications System** – On-site notifications for booking approvals/rejections
+- 📑 **Team Management** – Create and list club teams with coaches assigned
+- 📊 **Filterable Tables** – JavaScript-enhanced filters for bookings and teams pages
+- 🎨 **Polished Frontend** – Bootstrap 5 with custom CSS for club-themed branding
+- 🚀 **Live on Render** – Deployed online with environment configuration
+---
 
 ## Setup & Installation
 ### 1. Clone the Repository
@@ -126,9 +135,3 @@ Access the website locally at `http://127.0.0.1:8080/`
 9. Your app will build and deploy — visit the live link provided by Render when it's complete 🚀
 
 > 🛑 **Important:** Never commit your `.env` file to GitHub — it should be listed in `.gitignore`.
-
-
-## 🌐 Live Demo
-
-Check out the live version of this project on Render:  
-👉 [https://bailebeag-gaa.onrender.com/]
