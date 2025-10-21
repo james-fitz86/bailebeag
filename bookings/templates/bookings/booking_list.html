@@ -54,46 +54,33 @@
                 data-start="{{ booking.start_time|date:'c' }}"
                 data-status="{{ booking.status|lower }}"
                 >
-                    <td>{{ booking.pitch.name }}</td>
-                    <td>{{ booking.start_time|date:"Y-m-d" }}</td>
-                    <td>{{ booking.start_time|time:"H:i" }} – {{ booking.end_time|time:"H:i" }}</td>
-                    <td>
-                        {% if booking.created_by %}
-                            {{ booking.created_by.get_full_name }}
-                        {% else %}
-                            {{ booking.name }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if booking.created_by %}
-                            {% with r=booking.created_by.role %}
-                                {% if r %}
-                                    {{ r|title }}
-                                {% else %}
-                                    Registered User
-                                {% endif %}
-                            {% endwith %}
-                        {% else %}
-                            Public User
-                        {% endif %}
-                    </td>
-                    <td>{{ booking.get_method_display }}</td>
-                    <td>
-                        {% if booking.status == 'approved' %}
-                            <span class="badge bg-success">Approved</span>
-                        {% elif booking.status == 'pending' %}
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        {% elif booking.status == 'rejected' %}
-                            <span class="badge bg-danger">Rejected</span>
-                        {% elif booking.status == 'conflicting' %}
-                            <span class="badge bg-info text-dark">Conflicting</span>
-                        {% else %}
-                            {{ booking.status }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'booking_detail' booking.id %}" class="btn btn-sm btn-outline-primary">View</a>
-                    </td>
+                <td data-label="Pitch">{{ booking.pitch.name }}</td>
+                <td data-label="Date">{{ booking.start_time|date:"Y-m-d" }}</td>
+                <td data-label="Time">{{ booking.start_time|time:"H:i" }} – {{ booking.end_time|time:"H:i" }}</td>
+                <td data-label="Booked By">
+                  {% if booking.created_by %}
+                  {{ booking.created_by.get_full_name }}
+                  {% else %}
+                  {{ booking.name }}
+                  {% endif %}
+                </td>
+                <td data-label="Role">
+                  {% if booking.created_by %}
+                  {% with r=booking.created_by.role %}
+                  {% if r %}{{ r|title }}{% else %}Registered User{% endif %}
+                  {% endwith %}
+                  {% else %}
+                  Public User
+                  {% endif %}
+                </td>
+                <td data-label="Method">{{ booking.get_method_display }}</td>
+                <td data-label="Status">
+                  {# your badge logic here #}
+                </td>
+                <td data-label="">
+                  <a href="{% url 'booking_detail' booking.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+
                 </tr>
                 {% endfor %}
             </tbody>
