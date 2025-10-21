@@ -286,3 +286,48 @@ main {
 .carousel-control-next-icon {
   filter: invert(1) grayscale(100);
 }
+@media (max-width: 767.98px) {
+  #bookings_table,
+  #bookings_table thead,
+  #bookings_table tbody,
+  #bookings_table th,
+  #bookings_table td,
+  #bookings_table tr {
+    display: block;
+    width: 100%;
+  }
+
+  #bookings_table thead {
+    display: none;
+  }
+
+  #bookings_table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  #bookings_table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem 0;
+    border: none;
+  }
+
+  #bookings_table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #0d47a1;
+    flex-basis: 45%;
+    text-align: left;
+  }
+
+  #bookings_table td:last-child {
+    justify-content: flex-end;
+  }
+}
+
