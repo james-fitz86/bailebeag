@@ -10,7 +10,8 @@ class BookingForm(forms.ModelForm):
         fields = ['pitch', 'name', 'email', 'phone', 'start_time', 'end_time', 'method']
         widgets = {
             'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            # Restricts User from changing the JS formatted end time of start time plus one hour
+            'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local', 'readonly': 'readonly'}),
         }
 
     def __init__(self, *args, **kwargs):
