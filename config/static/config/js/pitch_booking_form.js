@@ -2,22 +2,28 @@ console.log("pitch booking form JS loaded");
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    
+
     const form = document.querySelector("#booking_form");
     if (!form) return;
 
     const nameGroup  = form.querySelector('#div_id_name');
     const emailGroup = form.querySelector('#div_id_email');
     const phoneGroup = form.querySelector('#div_id_phone');
+    const startGroup = form.querySelector('#div_id_start_time');
+    const endGroup = form.querySelector('#div_id_end_time');
     
     const pitch = form.querySelector('#id_pitch');
     const name  = nameGroup?.querySelector('input');
     const email = emailGroup?.querySelector('input');
     const phone = phoneGroup?.querySelector('input');
-    const startInput  = form.querySelector('#id_start_time');
-    const endInput    = form.querySelector('#id_end_time');
+    const startInput  = startGroup?.querySelector('#id_start_time');
+    const endInput    = endGroup?.querySelector('#id_end_time');
 
     const emailRegex    = /^\S+@\S+\.\S+$/;
     const phoneRegex  = /^[\d\s()+-]{7,}$/; 
+
+
 
     //Submit Validation
     form.addEventListener('submit', (e) => {
@@ -65,6 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!phone.value.trim()) return showError(phone, 'Phone is required.');
       if (!phoneRegex.test(phone.value)) showError(phone, 'Please enter a valid phone number.');
     });
+
+    startInput?.addEventListener('change', () => {
+        startInput.value = roundMinutes(startInput.value);
+        endInput.value = addHour(startInput.value);
+    });
+
 
     //Helpers
     function validateRequired(input, message) {
@@ -116,5 +128,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (typeof input.setCustomValidity === 'function') input.setCustomValidity('');
+    }
+    // Helper function to remove the minutes from the user input so booking is always at the start of the hour
+    function roundMinutes(input) {
+        const userDate = new Date(input);
+        
+        const formattedDate = `${userDate.getFullYear()}-${String(userDate.getMonth()+1).padStart(2, '0')}-${String(userDate.getDate()).padStart(2, '0')}T${String(userDate.getHours()).padStart(2, '0')}:00`;
+        
+        return formattedDate;
+        
+    }
+
+    // Helper function to set the end time as start time plus one hour, as bookings are limited to one hour slots
+    function addHour(input) {
+        const userDate = new Date(input);
+        userDate.setHours(userDate.getHours()+1);
+
+        const formattedEndDate = `${userDate.getFullYear()}-${String(userDate.getMonth()+1).padStart(2, '0')}-${String(userDate.getDate()).padStart(2, '0')}T${String(userDate.getHours()).padStart(2, '0')}:00`;
+
+        return formattedEndDate;
     }
 });
