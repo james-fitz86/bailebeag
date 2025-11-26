@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
+from django.utils import timezone
 
 # Create your views here.
 def create_booking(request):
@@ -79,8 +80,17 @@ def create_booking(request):
 
 class BookingList(LoginRequiredMixin, ListView):
     model = Booking
+
     template_name = 'booking_list.html'
     context_object_name = 'bookings'
+
+    # Busines rule: only upcoming bookings should appear on this
+    def get_queryset(self):
+        now = timezone.now()
+    
+        return Booking.objects.filter(
+            start_time__gte=now
+        ).order_by('start_time')
 
 class BookingDetail(LoginRequiredMixin, DetailView):
     model = Booking
