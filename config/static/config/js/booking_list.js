@@ -1,5 +1,3 @@
-console.log("booking list JS loaded");
-
 document.addEventListener('DOMContentLoaded', () => {
   const table = document.querySelector('#bookings_table');
   if (!table) return;
