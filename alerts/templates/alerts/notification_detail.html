@@ -40,6 +40,9 @@
                 <a href="{% url 'notification_list' %}" class="btn btn-outline-secondary btn-sm">
                     Back to Notifications
                 </a>
+                <a href="{% url 'notification_delete' notification.pk %}" class="btn btn-danger btn-sm">
+                  Delete
+                </a>
             {% endif %}
 
         </div>

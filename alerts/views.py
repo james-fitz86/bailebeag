@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, DeleteView
 from .models import Notification
+from django.urls import reverse_lazy
 
 # Create your views here.
 class NotificationListView(LoginRequiredMixin, ListView):
@@ -32,3 +33,10 @@ class NotificationDetailView(LoginRequiredMixin, DetailView):
             self.object.is_read = True
             self.object.save(update_fields=["is_read"])
         return response
+
+class NotificationDeleteView(LoginRequiredMixin, DeleteView):
+        model = Notification
+        success_url = reverse_lazy('notification_list')
+
+        def get(self, request, *args, **kwargs):
+            return self.delete(request, *args, **kwargs)
