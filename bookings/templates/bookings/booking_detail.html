@@ -78,13 +78,20 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Alter Booking</h5>
-                    <div class="mt-3">
-                        <a href="{% url 'booking_update' object.id %}" class="btn btn-primary w-100 mb-2">Update</a>
-                        <a href="{% url 'booking_delete' object.id %}" class="btn btn-danger w-100 mb-2">Delete</a>
+                    
+                    {% if user.is_authenticated %}
+                      {% if booking.created_by == user or user.role == "chairman" or user.role == "secretary" or user.role == "manager" %}
+                        <div class="mt-3">
+                          <a href="{% url 'booking_update' booking.id %}" class="btn btn-primary w-100 mb-2">Update</a>
+                          <a href="{% url 'booking_delete' booking.id %}" class="btn btn-danger w-100 mb-2">Delete</a>
+                        </div>
+                      {% endif %}
+                    {% endif %}
                         <a href="{% url 'booking_list' %}" class="btn btn-secondary w-100">Back to Bookings</a>
-                    </div>
+                </div>
             </div>
         </div>
+      </div>
     </div>
 </div>
 {% endblock %}
