@@ -1,6 +1,6 @@
 # 🏐 Baile Beag GAA – Pitch Booking System
 
-A full-featured Django web application for managing a fictional GAA club’s pitch bookings. The app allows coaches, managers, and club officials to manage team information, request and approve bookings, and receive notifications through a secure, role-based system. Deployed on **Render.com**:
+A full-featured Django web application for managing a fictional GAA club’s pitch bookings.. The app allows coaches, managers, and club officials to manage team information, request and approve bookings, and receive notifications through a secure, role-based system. Deployed on **Render.com**:
 
 ---
 ## 🌐 Live Demo
